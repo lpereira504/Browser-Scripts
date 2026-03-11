@@ -12,21 +12,28 @@
 (function () {
   const endPoints = {
     "1337x": "https://1337x.st/search/",
-    "yts": "https://yts.mx/browse-movies/",
-    "rutracker": "https://rutracker.net/forum/tracker.php?nm=",
-    "watchsomuch": "https://watchsomuch.to/Movies/"
+    yts: "https://yts.lt/browse-movies/",
+    rutracker: "https://rutracker.net/forum/tracker.php?nm=",
+    watchsomuch: "https://watchsomuch.to/Movies/",
+    nyaasi: "https://nyaa.si/?f=0&c=1_2&q=",
+    exto: "https://search.extto.com/browse/?q=",
   };
 
   const images = {
-    "1337x": "https://upload.wikimedia.org/wikipedia/commons/b/bb/1337X_logo.svg",
-    "yts": "https://yts.mx/assets/images/website/logo-YTS.svg",
-    "rutracker": "https://static.rutracker.cc/logo/logo-3.svg",
-    "watchsomuch": "https://watchsomuch.to/Images/Logo.png"
+    "1337x":
+      "https://upload.wikimedia.org/wikipedia/commons/b/bb/1337X_logo.svg",
+    yts: "https://yts.lt/assets/images/website/logo-YTS.svg",
+    rutracker: "https://static.rutracker.cc/logo/logo-3.svg",
+    watchsomuch: "https://watchsomuch.to/Images/Logo.png",
+    nyaasi: "https://nyaa.si/static/favicon.png",
+    exto: "https://search.extto.com/favicon.ico",
   };
 
   function createTorrentPanel() {
     const titleContainer = document.querySelector("h1.headline-1.primaryname");
-    const yearContainer = document.querySelector(".productioninfo .releasedate a");
+    const yearContainer = document.querySelector(
+      ".productioninfo .releasedate a",
+    );
 
     if (!titleContainer || !yearContainer) return false;
 
@@ -52,8 +59,9 @@
     const services = document.createElement("section");
     services.className = "services";
     services.style.display = "flex";
-    services.style.gap = "10px";
-    services.style.padding = "10px 0";
+    services.style.gap = "8px";
+    services.style.padding = "8px 0";
+    services.style.flexWrap = "wrap";
 
     for (const key in endPoints) {
       const a = document.createElement("a");
@@ -65,6 +73,9 @@
         case "yts":
           href = `${endPoints[key]}${encodeURIComponent(searchQuery)}/all/all/0/seeds/0/all`;
           break;
+        case "exto":
+          href = `${endPoints[key]}${encodeURIComponent(searchQuery)}&with_adult=1`;
+          break;
         default:
           href = `${endPoints[key]}${encodeURIComponent(searchQuery)}`;
       }
@@ -72,25 +83,26 @@
       a.href = href;
       a.target = "_blank";
       a.style.display = "inline-block";
-      a.style.width = "64px";
-      a.style.height = "64px";
-      a.style.background = "#1c1c1c";
-      a.style.borderRadius = "8px";
+      a.style.width = "48px";
+      a.style.height = "48px";
+      a.style.background = "#14181c";
+      a.style.border = "1px solid #2c3440";
+      a.style.borderRadius = "6px";
       a.style.display = "flex";
       a.style.alignItems = "center";
       a.style.justifyContent = "center";
-      a.style.transition = "0.2s";
-      a.style.cursor = "pointer";
+      a.style.transition = "background .15s ease";
 
-      a.onmouseover = () => (a.style.background = "#333");
-      a.onmouseout = () => (a.style.background = "#1c1c1c");
+      a.onmouseover = () => (a.style.background = "#2c3440");
+      a.onmouseout = () => (a.style.background = "#14181c");
 
       const img = document.createElement("img");
       img.src = images[key];
       img.alt = key;
-      img.style.height = "32px";
-      img.style.width = "32px";
+      img.style.width = "24px";
+      img.style.height = "24px";
       img.style.objectFit = "contain";
+      img.style.pointerEvents = "none";
 
       a.appendChild(img);
       services.appendChild(a);
@@ -111,4 +123,3 @@
 
   setTimeout(createTorrentPanel, 2000);
 })();
-
